@@ -36,11 +36,13 @@ struct SettingsView: View {
                 }
 
                 Section("System") {
-                    Button("Open VPN Settings") {
-                        if let url = URL(string: "App-prefs:General&path=VPN") {
-                            UIApplication.shared.open(url)
-                        }
+                    Button("Open App Settings") {
+                        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                        UIApplication.shared.open(url)
                     }
+                    Text("For VPN controls, open Settings and go to General > VPN & Device Management.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
 
                 Section("About") {

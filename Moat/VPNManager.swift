@@ -16,7 +16,9 @@ class VPNManager: ObservableObject {
             queue: .main
         ) { [weak self] notification in
             guard let self,
-                  let connection = notification.object as? NEVPNConnection else { return }
+                  let connection = notification.object as? NEVPNConnection,
+                  let activeConnection = self.manager?.connection,
+                  connection === activeConnection else { return }
             self.updateStatus(connection.status)
         }
         loadConfiguration()

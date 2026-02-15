@@ -63,15 +63,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 
         // MARK: - DNS
 
-        if allowLocalDNS {
-            // Point DNS to the tunnel address to blackhole public DNS,
-            // but use matchDomains = [""] so the system can still fall back
-            // to local DNS servers for LAN resolution.
-            let dns = NEDNSSettings(servers: [tunnelAddress])
-            dns.matchDomains = [""]
-            settings.dnsSettings = dns
-        } else {
-            // Fully blackhole DNS
+        if !allowLocalDNS {
+            // Force all DNS to dead-end when local DNS is disabled.
             let dns = NEDNSSettings(servers: [tunnelAddress])
             settings.dnsSettings = dns
         }
